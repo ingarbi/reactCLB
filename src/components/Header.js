@@ -1,12 +1,13 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { NavLink } from "react-router-dom";
 
 const navigation = [
-  { name: "Employees", href: "/Employees", current: true },
-  { name: "Customers", href: "/Customers", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
+  { name: "Employees", href: "/Employees" },
+  { name: "Customers", href: "/Customers" },
+  { name: "Projects", href: "/other" },
+  { name: "Calendar", href: "/other2" },
 ];
 
 function classNames(...classes) {
@@ -35,19 +36,26 @@ export default function Header(props) {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <NavLink
                         key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? "no-underline bg-gray-900 text-white"
-                            : "no-underline text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "no-underlinepx-3 py-2 rounded-md text-sm font-medium"
-                        )}
-                        aria-current={item.current ? "page" : undefined}
+                        to={item.href}
+                        // className={classNames(
+                        //   item.current
+                        //     ? "no-underline "
+                        //     : "no-underline ",
+                        //   "no-underline"
+                        // )}
+                        className={({ isActive }) => {
+                          return (
+                            "px-3 py-2 rounded-md text-sm font-medium no-underline " +
+                            (!isActive
+                              ? "text-gray-300 hover:bg-gray-700 hover:text-white"
+                              : "bg-gray-900 text-white")
+                          );
+                        }}
                       >
                         {item.name}
-                      </a>
+                      </NavLink>
                     ))}
                   </div>
                 </div>
@@ -66,9 +74,6 @@ export default function Header(props) {
                   <div>
                     <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open user menu</span>
-                    
-
-
                     </Menu.Button>
                   </div>
                   <Transition
@@ -152,6 +157,5 @@ export default function Header(props) {
         </>
       )}
     </Disclosure>
-    
   );
 }
