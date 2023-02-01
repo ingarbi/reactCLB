@@ -43,7 +43,7 @@ function EditEmployee(props) {
               <div className="md:w-1/3">
                 <label
                   className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                  htmlFor="name"
+                  for="name"
                 >
                   Full Name
                 </label>
@@ -60,14 +60,13 @@ function EditEmployee(props) {
                 />
               </div>
             </div>
-
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/3">
                 <label
                   className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                  htmlFor="role"
+                  for="role"
                 >
-                  Full Name
+                  Role
                 </label>
               </div>
               <div className="md:w-2/3">
@@ -87,7 +86,6 @@ function EditEmployee(props) {
         <Modal.Footer>
           <button
             className="bg-slate-400 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded"
-            form="editmodal"
             onClick={handleClose}
           >
             Close
