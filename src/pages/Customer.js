@@ -1,7 +1,7 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import NotFound from "../components/NotFound";
-import { baseUrl } from '../shared';
+import { baseUrl } from "../shared";
 
 export default function Customer() {
   const { id } = useParams();
@@ -26,7 +26,7 @@ export default function Customer() {
 
   return (
     <>
-    {notFound ? <NotFound/> : null}
+      {notFound ? <NotFound /> : null}
       {customer ? (
         <div>
           <p>{customer.id}</p>
@@ -34,6 +34,29 @@ export default function Customer() {
           <p>{customer.industry}</p>
         </div>
       ) : null}
+      <button
+        onClick={(e) => {
+          const url = baseUrl + "api/customers/" + id;
+          fetch(url, {
+            method: "DELETE",
+            headers: {
+              "Content-type": "application/json",
+            },
+          })
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error("Smth went wrong");
+              }
+              navigate("/customers");
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }}
+      >
+        Delete
+      </button>
+      <br />
       <Link to="/customers">Go Back</Link>
     </>
   );
