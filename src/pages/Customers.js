@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
-import { json, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AddCustomer from "../components/AddCustomer";
 import { baseUrl } from "../shared";
 
 export default function Customers() {
   const [customers, setCustomers] = useState();
+  const [show, setShow] = useState(false);
+
+  function toggleShow() {
+    setShow(!show);
+  }
+
   useEffect(() => {
-    fetch(baseUrl + "api/customers/")
-      .then((res) => res.json())
+    const url = baseUrl + "api/customers/";
+    fetch(url)
+      .then((response) => response.json())
       .then((data) => {
         setCustomers(data.customers);
       });
   }, []);
-
   function newCustomer(name, industry) {
     const data = { name: name, industry: industry };
     const url = baseUrl + "api/customers/";
@@ -23,19 +29,22 @@ export default function Customers() {
       },
       body: JSON.stringify(data),
     })
-      .then((res)=>{
-        if(!res.ok){
-          throw new Error('Smth went wrong')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Something went wrong");
         }
-        return res.json()
+        return response.json();
       })
       .then((data) => {
-
-      }).catch((e) => {
-        console.log(e)
+        toggleShow();
+        console.log(data);
+        setCustomers([...customers, data.customer]);
+        //make sure the list is updated appropriately
+      })
+      .catch((e) => {
+        console.log(e);
       });
   }
-
   return (
     <>
       <h1>Here are our customers:</h1>
@@ -50,7 +59,11 @@ export default function Customers() {
             })
           : null}
       </ul>
-      <AddCustomer newCustomer={newCustomer} />
+      <AddCustomer
+        newCustomer={newCustomer}
+        show={show}
+        toggleShow={toggleShow}
+      />
     </>
   );
 }
