@@ -102,12 +102,25 @@ export default function Header(props) {
                     {item.name}
                   </NavLink>
                 ))}
-                <NavLink
-                                    to={loggedIn ? '/logout' : '/login'}
-                                    className="block px-3 py-2 rounded-md text-base font-medium no-underline text-gray-300 hover:bg-gray-700 hover:text-white"
-                                >
-                                    {loggedIn ? 'Logout' : 'Login'}
-                                </NavLink>
+                {loggedIn ? (
+                  <NavLink
+                    to={"/login"}
+                    onClick={() => {
+                      setLoggedIn(false)
+                      localStorage.clear()
+                    }}
+                    className="block px-3 py-2 rounded-md text-base font-medium no-underline text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    Logout
+                  </NavLink>
+                ) : (
+                  <NavLink
+                    to={"/login"}
+                    className="block px-3 py-2 rounded-md text-base font-medium no-underline text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    Login
+                  </NavLink>
+                )}
               </div>
             </Disclosure.Panel>
           </>
